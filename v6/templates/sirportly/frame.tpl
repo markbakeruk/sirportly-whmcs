@@ -140,8 +140,6 @@
   <table width="100%">
   <tr><td width="300" valign="top">
 
-<!-- <h2>Client Information</h2> -->
-
 <img src="{$systemurl}assets/img/logo.png" align="center" height="45">
 
 <div class="clientssummarybox">
