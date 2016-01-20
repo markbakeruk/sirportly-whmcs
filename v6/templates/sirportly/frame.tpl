@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Sirportly Frame</title>
+
 <style type='text/css'>
 {literal}
 
@@ -47,7 +48,7 @@
     table.datatable th {
       background-color: #1A4D80;
       font-weight: bold;
-      text-align: center;
+      text-align: left;
         -moz-border-radius: 3px;
         -webkit-border-radius: 3px;
         -o-border-radius: 3px;
@@ -81,7 +82,7 @@
     -------------------------------------------------------------- */
 
     .clientssummarybox {
-        background-color: #EEEEEE;
+        background-color: #1A4D80;
         padding: 10px;
         margin: 10px 2px 5px 3px;
         -moz-border-radius: 5px;
@@ -137,63 +138,38 @@
 <body>
 <div class='frame'>
   <table width="100%">
-  <tr><td width="33%" valign="top">
+  <tr><td width="300" valign="top">
+
+<!-- <h2>Client Information</h2> -->
+
+<img src="{$systemurl}assets/img/logo.png" align="center" height="45">
 
 <div class="clientssummarybox">
-<div class="title">Client Information</div>
+
 <table class="clientssummarystats" cellspacing="0" cellpadding="2">
-<tr><td width="110">Full Name</td><td>{$client.firstname} {$client.lastname}</td></tr>
+<tr><td width="110">Customer Name</td><td>{$client.firstname} {$client.lastname}</td></tr>
 <tr><td>Company Name</td><td>{$client.companyname}</td></tr>
-<tr class="altrow"><td>Email Address</td><td>{$client.email}</td></tr>
-<tr><td>Address 1</td><td>{$client.address1}</td></tr>
-<tr class="altrow"><td>Address 2</td><td>{$client.address2}</td></tr>
-<tr><td>City</td><td>{$client.city}</td></tr>
-<tr class="altrow"><td>State/Region</td><td>{$client.state}</td></tr>
-<tr><td>Postcode</td><td>{$client.postcode}</td></tr>
-<tr class="altrow"><td>Country</td><td>{$client.country}</td></tr>
 <tr><td>Phone Number</td><td>{$client.phonenumber}</td></tr>
+
+<tr><td colspan=2>&nbsp;</td></tr>
+
+<tr><td><strong>Unpaid Invoices</td><td><strong>{$stats.numdueinvoices}</td></tr>
+<tr><td><strong>Unpaid Total</td><td><strong>{$stats.dueinvoicesbalance}</td></tr>
+
 </table>
-<ul>
+<br>
+
+<center><a href="{$systemurl}admin/clientssummary.php?userid={$client.id}" target="new-window"><img src="{$systemurl}assets/img/whmcs.png" border="0"></a>
+
 </div>
 
-</td><td width="33%" valign="top">
-
-<div class="clientssummarybox">
-<div class="title">Invoices/Billing</div>
-<table class="clientssummarystats" cellspacing="0" cellpadding="2">
-<tr><td width="110">Paid</td><td>{$stats.numpaidinvoices} ({$stats.paidinvoicesamount})</td></tr>
-<tr class="altrow"><td>Unpaid/Due</td><td>{$stats.numdueinvoices} ({$stats.dueinvoicesbalance})</td></tr>
-<tr><td>Cancelled</td><td>{$stats.numcancelledinvoices} ({$stats.cancelledinvoicesamount})</td></tr>
-<tr class="altrow"><td>Refunded</td><td>{$stats.numrefundedinvoices} ({$stats.refundedinvoicesamount})</td></tr>
-<tr><td>Collections</td><td>{$stats.numcollectionsinvoices} ({$stats.collectionsinvoicesamount})</td></tr>
-<tr class="altrow"><td><strong>Income</strong></td><td><strong>{$stats.income}</strong></td></tr>
-<tr><td>Credit Balance</td><td>{$stats.creditbalance}</td></tr>
-</table>
-</div>
-
-</td><td width="33%" valign="top">
-
-<div class="clientssummarybox">
-<div class="title">Products/Services</div>
-<table class="clientssummarystats" cellspacing="0" cellpadding="2">
-<tr><td width="140">Shared Hosting</td><td>{$stats.productsnumactivehosting} ({$stats.productsnumhosting} Total)</td></tr>
-<tr class="altrow"><td>Reseller Hosting</td><td>{$stats.productsnumactivereseller} ({$stats.productsnumreseller} Total)</td></tr>
-<tr><td>VPS/Server</td><td>{$stats.productsnumactiveservers} ({$stats.productsnumservers} Total)</td></tr>
-<tr class="altrow"><td>Product/Service</td><td>{$stats.productsnumactiveother} ({$stats.productsnumother} Total)</td></tr>
-<tr><td>Domains</td><td>{$stats.numactivedomains} ({$stats.numdomains} Total)</td></tr>
-<tr class="altrow"><td>Accepted Quotes</td><td>{$stats.numacceptedquotes} ({$stats.numquotes} Total)</td></tr>
-<tr><td>Affiliate Signups</td><td>{$stats.numaffiliatesignups}</td></tr>
-</table>
-</div>
-
-</td></table>
-
+</td><td valign="top">
 
 <h2>Services</h2>
 
 <table width="100%" class="datatable">
   <tr>
-    <th>Order #</th>
+    <th>Domain</th>
     <th>Product Name</th>
     <th>Billing Cycle</th>
     <th>Amount</th>
@@ -201,7 +177,7 @@
 
 {foreach from=$products item=product}
   <tr>
-    <td>{$product.orderid}</td>
+    <td><a href="{$systemurl}admin/clientsservices.php?id={$product.id}" target="new-window">{$product.domain}</a></td>
     <td>{$product.groupname} - {$product.name}</td>
     <td>{$product.billingcycle}</td>
     <td>{$product.recurringamount} {$client.currency_code}</td>
@@ -215,6 +191,35 @@
 {/foreach}
 </table>
 
+<h2>Domains</h2>
+
+<table width="100%" class="datatable">
+  <tr>
+    <th>Domain</th>
+    <th>Registrar</th>
+    <th>Expiry Date</th>
+    <th>Billing Cycle</th>
+    <th>Amount</th>
+    <th>Status</th>
+
+{foreach from=$domains item=domain}
+  <tr>
+    <td>{$domain.domainname}</td>
+    <td>{$domain.registrar}</td>
+    <td>{$domain.expirydate}</td>
+    <td>{$product.billingcycle}</td>
+    <td>{$domain.recurringamount} {$client.currency_code}</td>
+    <td>{$domain.status}</td>
+  </tr>
+
+{foreachelse}
+  <tr>
+    <td colspan="5">This client doesn't have any domains</td>
+  </tr>
+{/foreach}
+</table>
+
+<br><br>
 
 </div>
 </body>
