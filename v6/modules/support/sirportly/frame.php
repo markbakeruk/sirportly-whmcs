@@ -54,6 +54,12 @@
   foreach ($client_products['products'] as $key => $value) {
     $vars['products'] = $value;
   }
+  
+    ## Client Domains
+  $client_domains = localAPI('getclientsdomains', array('clientid' =>$client['id']), $administrator['id']);
+  foreach ($client_domains['domains'] as $key => $value) {
+    $vars['domains'] = $value;
+  }
 
   $ca = new WHMCS_ClientArea();
   $ca->initPage();
